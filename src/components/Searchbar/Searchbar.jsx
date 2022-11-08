@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export class Searchbar extends Component {
   state = {
@@ -6,30 +7,29 @@ export class Searchbar extends Component {
   };
 
   handleQueryChange = event => {
-    this.setState({searchQuery: event.currentTarget.value.toLowerCase()})
-  }
-  
-  handleSubmit = event => {
-    const {searchQuery} = this.state;
-    event.preventDefault();
-    if(searchQuery.trim() === ''){
-        return alert('Input value can not be empty')
-    };
-    this.props.onSubmit(searchQuery);
-    this.setState({searchQuery: ''});
+    this.setState({ searchQuery: event.currentTarget.value.toLowerCase() });
+  };
 
-  }
+  handleSubmit = event => {
+    const { searchQuery } = this.state;
+    event.preventDefault();
+    if (searchQuery.trim() === '') {
+      return alert('Input value can not be empty');
+    }
+    this.props.onSubmit(searchQuery);
+    this.setState({ searchQuery: '' });
+  };
 
   render() {
     return (
-      <header className='Searchbar'>
-        <form className='SearchForm' onSubmit={this.handleSubmit}>
-          <button type="submit" className='SearchForm-button'>
-            <span className='button-label'>Search</span>
+      <header className="Searchbar">
+        <form className="SearchForm" onSubmit={this.handleSubmit}>
+          <button type="submit" className="SearchForm-button">
+            <span className="button-label">Search</span>
           </button>
 
           <input
-            className='SearchForm-input'
+            className="SearchForm-input"
             type="text"
             // autocomplete="off"
             // autofocus
@@ -42,3 +42,7 @@ export class Searchbar extends Component {
     );
   }
 }
+
+Searchbar.protoType = {
+  onSubmit: PropTypes.func,
+};
