@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 import { LoadMore } from '../LoadMore/LoadMore';
 
+
 export class ImageGallery extends Component {
   state = {
     images: [],
@@ -43,7 +44,11 @@ export class ImageGallery extends Component {
     return (
       <>
         <ul className="ImageGallery">
-          <ImageGalleryItem images={images} />
+        {images.map(image => <ImageGalleryItem
+            key={image.id}
+            alt={image.tags}
+            webformatURL={image.webformatURL}
+            largeImageURL={image.largeImageURL} />)}
         </ul>
         {images.length > 11 && (
           <LoadMore onLoadMore={this.props.onLoadMore} />
