@@ -25,9 +25,10 @@ export class Modal extends Component {
   };
 
   render() {
+    const { largeImageUrl } = this.props;
     return createPortal(
       <div className="Overlay" onClick={this.handleOverlayClick}>
-        <div className="Modal">{this.props.children}</div>
+        <img src={largeImageUrl} alt="img" />
       </div>,
       modalRoot
     );
@@ -36,4 +37,5 @@ export class Modal extends Component {
 
 Modal.protoType = {
   closeModal: PropTypes.func,
+  largeImageUrl: PropTypes.string,
 };
