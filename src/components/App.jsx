@@ -42,7 +42,6 @@ export class App extends Component {
           if (img.hits.length === 0) {
             alert(`No pictures found with name ${searchQuery}`);
           }
-          console.log(img.totalHits)
           this.setState(prevState => ({
             images: [...prevState.images, ...img.hits],
             totalHits: img.totalHits,
