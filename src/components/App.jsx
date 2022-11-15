@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Modal } from './Modal/Modal';
@@ -6,16 +6,25 @@ import { LoadMore } from './LoadMore/LoadMore';
 import { Loader } from './Loader/Loader';
 import { fatchGallery } from './API/Api';
 
-export class App extends Component {
-  state = {
-    searchQuery: '',
-    page: 1,
-    images: [],
-    isLoading: false,
-    showModal: false,
-    largeImageURL: '',
-    totalHits: null,
-  };
+export function App () {
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [page, setPage] = useState(1);
+  const [images, setImages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [largeImageURL, setLargeImageURL] = useState('');
+  const [totalHits, setTotalHits] = useState(null);
+
+  // state = {
+  //   searchQuery: '',
+  //   page: 1,
+  //   images: [],
+  //   isLoading: false,
+  //   showModal: false,
+  //   largeImageURL: '',
+  //   totalHits: null,
+  // };
 
   componentDidUpdate(prevProps, prevState) {
     const { page, searchQuery } = this.state;
@@ -29,23 +38,27 @@ export class App extends Component {
     }
   }
 
-  async apiGallery() {
-    const { page, searchQuery } = this.state;
-    this.setState({ isLoading: true });
+  async function apiGallery() {
+    // const { page, searchQuery } = this.state;
+    setIsLoading(true);
+    // this.setState({ isLoading: true });
     try {
       await fatchGallery(searchQuery, page).then(img => {
         if (img.hits.length === 0) {
           alert(`No pictures found with name ${searchQuery}`);
         }
-        this.setState(prevState => ({
-          images: [...prevState.images, ...img.hits],
-          totalHits: img.totalHits,
-        }));
+        setImages(state => [...state, ...img.hits]);
+        setTotalHits(img.totalHits);
+        // this.setState(prevState => ({
+        //   images: [...prevState.images, ...img.hits],
+        //   totalHits: img.totalHits,
+        // }));
       });
     } catch (error) {
       console.log(error);
     } finally {
-      this.setState({ isLoading: false });
+      setIsLoading(false);
+      // this.setState({ isLoading: false });
     }
   }
 
@@ -68,9 +81,9 @@ export class App extends Component {
     });
   };
 
-  render() {
-    const { images, isLoading, showModal, largeImageURL, totalHits, page } =
-      this.state;
+   
+    // const { images, isLoading, showModal, largeImageURL, totalHits, page } =
+    //   this.state;
     return (
       <div>
         <Searchbar onSubmit={this.handleFormSubmit} />
@@ -89,4 +102,4 @@ export class App extends Component {
       </div>
     );
   }
-}
+
